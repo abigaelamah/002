@@ -15,46 +15,52 @@
     body {
       background-color: #f9f9f9;
       color: #333;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
     }
 
+    /* Shared Container */
     .container {
       width: 100%;
-      max-width: 420px;
+      max-width: 480px;
+      margin: 0 auto;
       padding: 20px;
     }
 
-    .top-green-bar {
-      background-color: #6cbf2b;
-      color: white;
-      padding: 15px 20px;
+    /* Login Styles */
+    #login-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    .header {
+      width: 100%;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 18px;
-      font-weight: bold;
-      border-radius: 10px 10px 0 0;
+      background-color: #005c3c;
+      padding: 10px 15px;
+      color: white;
+      border-radius: 8px 8px 0 0;
     }
 
-    .top-green-bar .register {
-      font-weight: normal;
+    .register-btn {
+      background-color: transparent;
+      border: 2px solid white;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 6px;
       cursor: default;
     }
 
     .login-card {
       background: white;
       padding: 20px;
-      border-radius: 0 0 10px 10px;
+      margin-top: 20px;
+      border-radius: 10px;
       box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-    }
-
-    .login-title {
-      margin-bottom: 20px;
-      font-size: 16px;
-      text-align: center;
+      width: 100%;
     }
 
     label {
@@ -72,6 +78,28 @@
       margin-bottom: 5px;
     }
 
+    .helper-link {
+      color: #6cbf2b;
+      font-size: 14px;
+      text-decoration: none;
+      float: right;
+      margin-bottom: 10px;
+    }
+
+    .password-container {
+      position: relative;
+    }
+
+    .toggle-visibility {
+      position: absolute;
+      right: 10px;
+      top: 9px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      font-size: 18px;
+    }
+
     .login-btn {
       width: 100%;
       background-color: #6cbf2b;
@@ -82,33 +110,20 @@
       font-size: 16px;
       margin-top: 20px;
       cursor: pointer;
-      transition: background 0.3s;
-    }
-
-    .login-btn:hover {
-      background-color: #5aa71f;
     }
 
     .error-message {
       color: red;
       font-size: 14px;
       margin-top: 10px;
-      text-align: center;
     }
 
-    /* Hide dashboard initially */
-    #dashboard {
+    /* Dashboard Styles */
+    #dashboard-section {
       display: none;
+      width: 100%;
     }
 
-    /* Responsive tweaks */
-    @media (max-width: 480px) {
-      .top-green-bar {
-        font-size: 16px;
-      }
-    }
-
-    /* Dashboard styles */
     .top-bar {
       display: flex;
       justify-content: space-between;
@@ -148,11 +163,7 @@
       border: none;
     }
 
-    .transactions,
-    .quick-actions,
-    .services,
-    .promo,
-    .security {
+    .transactions, .quick-actions, .services, .promo, .security {
       background: white;
       padding: 15px;
       margin: 10px;
@@ -181,27 +192,29 @@
     }
 
     .amount.success {
-      color: lightgreen;
+      color: green;
       font-weight: bold;
     }
 
     .quick-actions {
       display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
       justify-content: space-around;
     }
 
     .quick-actions button {
+      flex: 1;
       background: lightgreen;
       border: none;
       padding: 10px;
       border-radius: 10px;
-      flex: 1;
-      margin: 0 5px;
+      min-width: 90px;
     }
 
     .services {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
       gap: 10px;
     }
 
@@ -209,13 +222,6 @@
       background: #ebf8f2;
       text-align: center;
       padding: 10px;
-      border-radius: 10px;
-    }
-
-    .options {
-      background: #ebf8f2;
-      padding: 10px;
-      margin-top: 10px;
       border-radius: 10px;
     }
 
@@ -240,41 +246,60 @@
       color: green;
       font-weight: bold;
     }
+
+    @media (max-width: 480px) {
+      .balance-card h1 {
+        font-size: 20px;
+      }
+
+      .quick-actions {
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
   </style>
 </head>
 <body>
 
   <!-- Login Section -->
-  <div class="container" id="login-section">
-    <div class="top-green-bar">
-      <span class="brand">GoBank</span>
-      <span class="register">Register</span>
-    </div>
-    <div class="login-card">
-      <p class="login-title">Sign in to your account</p>
-      <form onsubmit="handleLogin(event)">
-        <label for="username">Username</label>
-        <input type="text" id="username" required />
-        <label for="password">Password</label>
-        <input type="password" id="password" required />
-        <button type="submit" class="login-btn">Login</button>
-        <div id="error" class="error-message"></div>
-      </form>
+  <div id="login-section">
+    <div class="container">
+      <div class="header">
+        <strong>GO BANK</strong>
+        <button class="register-btn">Register</button>
+      </div>
+      <div class="login-card">
+        <p><strong>Already registered?</strong> Use your credentials to login</p>
+        <form onsubmit="handleLogin(event)">
+          <label for="username">Username *</label>
+          <input type="text" id="username" required />
+          <a href="#" class="helper-link">Forgot username?</a>
+
+          <label for="password">Password *</label>
+          <div class="password-container">
+            <input type="password" id="password" required />
+            <button type="button" class="toggle-visibility" onclick="togglePassword()">👁️</button>
+          </div>
+          <a href="#" class="helper-link">Forgot password?</a>
+
+          <button type="submit" class="login-btn">Login</button>
+          <div id="error" class="error-message"></div>
+        </form>
+      </div>
     </div>
   </div>
 
   <!-- Dashboard Section -->
-  <div id="dashboard">
-    <header class="top-bar">
+  <div id="dashboard-section">
+    <div class="top-bar">
       <div class="profile">
         <img src="https://via.placeholder.com/40" alt="Profile">
         <span>Hi, Jacob</span>
       </div>
-      <div class="icons">
-        <span class="help">HELP</span>
-        <span class="bell">🔔</span>
+      <div>
+        <span>HELP</span> &nbsp; 🔔
       </div>
-    </header>
+    </div>
 
     <section class="balance-card">
       <div class="balance-info">
@@ -304,19 +329,18 @@
     </section>
 
     <section class="quick-actions">
-      <button>To OPay</button>
-      <button>To Bank</button>
-      <button>Withdraw</button>
+      <button onclick="location.href='to-opay.html'">To OPay</button>
+      <button onclick="location.href='to-bank.html'">To Bank</button>
+      <button onclick="location.href='withdraw.html'">Withdraw</button>
     </section>
 
     <section class="services">
-      <div class="service">Airtime & Data</div>
+      <div class="service">Airtime</div>
       <div class="service">Flight</div>
-      <div class="service">School Fee</div>
-      <div class="service">TV Subscription</div>
-      <div class="service">Medication</div>
+      <div class="service">School</div>
+      <div class="service">TV</div>
       <div class="service">Loan</div>
-      <div class="service">E-statements</div>
+      <div class="service">E-Statements</div>
       <div class="service">More</div>
     </section>
 
@@ -329,7 +353,7 @@
       <h3>Security Center</h3>
       <p>How many offices are stated in the OPay app?</p>
       <div class="options">
-        <span>A. 17</span><br />
+        <span>A. 17</span>
         <span>B. 10</span>
       </div>
     </section>
@@ -352,12 +376,16 @@
 
       if (username === "JacobAmaitsa" && password === "JacobAmaitsa001") {
         document.getElementById("login-section").style.display = "none";
-        document.getElementById("dashboard").style.display = "block";
+        document.getElementById("dashboard-section").style.display = "block";
       } else {
         errorDiv.textContent = "Invalid username or password.";
       }
     }
-  </script>
 
+    function togglePassword() {
+      const pass = document.getElementById("password");
+      pass.type = pass.type === "password" ? "text" : "password";
+    }
+  </script>
 </body>
 </html>
